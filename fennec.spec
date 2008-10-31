@@ -22,6 +22,7 @@ Url: 		http://www.moblin.org/projects/moblin-browser
 # BuildRoot:      %{_tmppath}/%{name}-%{version}-buildroot
 
 BuildRequires: autoconf2.1
+BuildRequires: alsa-lib-devel
 
 BuildRequires:	gtk+2-devel
 BuildRequires:	libx11-devel
