@@ -22,7 +22,41 @@ Url: 		http://www.moblin.org/projects/moblin-browser
 # BuildRoot:      %{_tmppath}/%{name}-%{version}-buildroot
 
 BuildRequires: autoconf2.1
-BuildRequires: zip
+
+BuildRequires:	gtk+2-devel
+BuildRequires:	libx11-devel
+BuildRequires:	unzip
+BuildRequires:	zip
+#(tpg) older versions doesn't support apng extension
+BuildRequires:	libpng-devel >= 1.2.25-2
+BuildRequires:	libjpeg-devel
+BuildRequires:	zlib-devel
+BuildRequires:	libcairo-devel
+BuildRequires:	glib2-devel
+BuildRequires:	libIDL2-devel
+BuildRequires:	makedepend
+#(tpg) don't use system nss and nspr as they are not updated to latest version which supports ff3
+BuildRequires:	nss-devel
+BuildRequires:	nspr-devel
+BuildRequires:	startup-notification-devel
+BuildRequires:	dbus-glib-devel
+BuildRequires:	lcms-devel
+BuildRequires:	python-devel
+# (fhimpe) Starting from Firefox 3.0.1, at least sqlite 3.5.9 is needed
+# so only use system sqlite on Mandriva >= 2009.0
+%if %mdkversion >= 200900
+BuildRequires:	libsqlite3-devel >= 3.5.9
+%endif
+BuildRequires:	valgrind
+BuildRequires:	rootcerts
+BuildRequires:	libxt-devel
+BuildRequires:	hunspell-devel
+BuildRequires:	doxygen
+BuildRequires:	libgnome-vfs2-devel
+BuildRequires:	libgnome2-devel
+BuildRequires:	libgnomeui2-devel
+BuildRequires:	java-rpmbuild
+BuildRequires:  xulrunner-devel-unstable
 
 Requires:      libxt6
 Requires:      libalsa2
