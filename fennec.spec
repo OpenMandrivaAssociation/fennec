@@ -22,6 +22,7 @@ Url: 		http://www.moblin.org/projects/moblin-browser
 # BuildRoot:      %{_tmppath}/%{name}-%{version}-buildroot
 
 BuildRequires: autoconf2.1
+BuildRequires: zip
 
 Requires:      libxt6
 Requires:      libalsa2
