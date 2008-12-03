@@ -1,7 +1,7 @@
 
 %define name	    fennec
 %define version     1.0
-%define release     %mkrel 0.a1.2
+%define release     %mkrel 0.a1.3
 %define fennecdir   %{_libdir}/%{name}-%{version}
 %define _provides_exceptions libfreebl3.so\\|libimgicon.so\\|libmozjs.so\\|libMyService.so\\|libnkgnomevfs.so\\|libnptest.so\\|libnptest.so\\|libnspr4.so\\|libnss3.so\\|libnssckbi.so\\|libnssdbm3.so\\|libnssutil3.so\\|libnullplugin.so\\|libplc4.so\\|libplds4.so\\|libsmime3.so\\|libsoftokn3.so\\|libsqlite3.so\\|libssl3.so\\|libtestdynamic.so\\|libunixprintplugin.so\\|libxpcomsample.so\\|libxpcom.so\\|libxul.so
 
@@ -58,10 +58,6 @@ BuildRequires:	libgnome2-devel
 BuildRequires:	libgnomeui2-devel
 BuildRequires:	java-rpmbuild
 BuildRequires:  xulrunner-devel-unstable
-
-Requires:      libxt6
-Requires:      libalsa2
-Requires:      libgnome-vfs2_0
 
 # Requires: 	man > 1.0
 # Requires:	sed = %{sedversion}
