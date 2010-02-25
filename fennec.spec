@@ -1,7 +1,7 @@
 
 %define name	    fennec
 %define version     1.0
-%define release     %mkrel 0.a1.4
+%define release     %mkrel 0.rc3.0
 %define fennecdir   %{_libdir}/%{name}-%{version}
 %define _provides_exceptions libfreebl3.so\\|libimgicon.so\\|libmozjs.so\\|libMyService.so\\|libnkgnomevfs.so\\|libnptest.so\\|libnptest.so\\|libnspr4.so\\|libnss3.so\\|libnssckbi.so\\|libnssdbm3.so\\|libnssutil3.so\\|libnullplugin.so\\|libplc4.so\\|libplds4.so\\|libsmime3.so\\|libsoftokn3.so\\|libsqlite3.so\\|libssl3.so\\|libtestdynamic.so\\|libunixprintplugin.so\\|libxpcomsample.so\\|libxpcom.so\\|libxul.so
 
@@ -57,26 +57,17 @@ BuildRequires:	libgnome-vfs2-devel
 BuildRequires:	libgnome2-devel
 BuildRequires:	libgnomeui2-devel
 BuildRequires:	java-rpmbuild
-BuildRequires:  xulrunner-devel-unstable
+BuildRequires:  xulrunner-devel
+BuildRequires:  libnotify-devel
+BuildRequires:  libiw-devel
 
 # Requires: 	man > 1.0
 # Requires:	sed = %{sedversion}
 
-# Source0: 	http://ftp.mozilla.org/pub/mozilla.org/mozilla.org/mozilla.org/firefox/releases/3.1b1/source/firefox-3.1b1-source.tar.bz2
-
-# Tag FENNEC_A1
-Source0: 	http://hg.mozilla.org/mozilla-central/archive/cab97aca485d.tar.bz2
-
-# Tag FENNEC_A1
-Source1:        http://hg.mozilla.org/mobile-browser/archive/b394a7122c10.tar.bz2	
+Source0:	http://ftp.mozilla.org/pub/mozilla.org/mobile/releases/1.0/source/fennec-1.0rc3.source.tar.bz2
 Source2:	.mozconfig
 Source3:	fennec.desktop
 Source4:	icons_fennec.tar.bz2
-
-# Patch0:		testpackfix1.patch
-
-# subpackage 
-# %package testpack
 
 %description
 This is the Firefox Mobile (code name Fennec) web browser which 
@@ -86,11 +77,8 @@ or touch screen.
 
 %prep 
 
-%setup -n mozilla-central-cab97aca485d
-tar xjf %{SOURCE1} -C %{_builddir}
-
-mv %{_builddir}/mobile-browser* %{_builddir}/mozilla-central-cab97aca485d/mobile
-cp %{SOURCE2} %{_builddir}/mozilla-central-cab97aca485d
+%setup -n mozilla-1.9.2
+cp %{SOURCE2} .
 
 
 %build 
@@ -101,7 +89,6 @@ cp %{SOURCE2} %{_builddir}/mozilla-central-cab97aca485d
 # export CFLAGS="%{optflags}"
 # export CXXFLAGS="$CFLAGS"
 
-cd %{_builddir}/mozilla-central-cab97aca485d/
 make -f client.mk build
 
 %install 
@@ -122,8 +109,8 @@ tar xjf %{SOURCE4} -C %{buildroot}%{_datadir}/icons
 
 # executable script 
 mkdir -p %{buildroot}%{_bindir}
-echo "#!/bin/bash" >> %{buildroot}%{_bindir}/fennec
-echo "/usr/lib/fennec-1.0/fennec" >> %{buildroot}%{_bindir}/fennec
+echo "#!/bin/sh" >> %{buildroot}%{_bindir}/fennec
+echo "%{fennecdir}/fennec" >> %{buildroot}%{_bindir}/fennec
 chmod +x %{buildroot}%{_bindir}/fennec
 
 # enable cursor
@@ -196,31 +183,53 @@ sed -i 's/^pref("browser.ui.cursor", false);/pref("browser.ui.cursor", true);/g'
 %{fennecdir}/xulrunner/defaults/profile/chrome/*.*
 %{fennecdir}/xulrunner/defaults/profile/*.*
 %{fennecdir}/xulrunner/*
-%{fennecdir}/xulrunner/.autoreg
+#%{fennecdir}/xulrunner/.autoreg
 
 # fennec files
 %{fennecdir}/application.ini
 %{fennecdir}/fennec
 
 %dir %{fennecdir}/components
+%{fennecdir}/components/components.list
 %{fennecdir}/components/nsTelProtocolHandler.js
-%{fennecdir}/components/aboutFirstrun.js
+#%{fennecdir}/components/aboutFirstrun.js
+%{fennecdir}/components/AboutRedirector.js
+%{fennecdir}/components/AlertsService.js
+%{fennecdir}/components/AutoCompleteCache.js
+%{fennecdir}/components/BrowserCLH.js
+%{fennecdir}/components/BrowserStartup.js
+%{fennecdir}/components/ContentDispatchChooser.js
+%{fennecdir}/components/DirectoryProvider.js
+%{fennecdir}/components/DownloadManagerUI.js
+%{fennecdir}/components/GeolocationPrompt.js
+%{fennecdir}/components/HelperAppDialog.js
+%{fennecdir}/components/PromptService.js
+%{fennecdir}/components/Sidebar.js
+%{fennecdir}/components/XPIDialogService.js
+%{fennecdir}/components/fennec.xpt
+%{fennecdir}/components/libmozphone.so
+%{fennecdir}/defaults/preferences/mobile-l10n.js
+%{fennecdir}/fix-linux-stack.pl
+%{fennecdir}/res/bloatcycle.html
+%{fennecdir}/updater.ini
 
-%dir %{fennecdir}/searchplugins
-%{fennecdir}/searchplugins/wikipedia.xml
-%{fennecdir}/searchplugins/answers.xml
-%{fennecdir}/searchplugins/yahoo.xml
-%{fennecdir}/searchplugins/google.xml
+#%dir %{fennecdir}/searchplugins
+#%{fennecdir}/searchplugins/wikipedia.xml
+#%{fennecdir}/searchplugins/answers.xml
+#%{fennecdir}/searchplugins/yahoo.xml
+#%{fennecdir}/searchplugins/google.xml
 
 %dir %{fennecdir}/chrome
 %{fennecdir}/chrome/en-US.jar
-%{fennecdir}/chrome/firstrun.jar
-%{fennecdir}/chrome/browser.manifest
 %{fennecdir}/chrome/en-US.manifest
-%{fennecdir}/chrome/firstrun.manifest
-%{fennecdir}/chrome/classic.jar
-%{fennecdir}/chrome/classic.manifest
-%{fennecdir}/chrome/browser.jar
+#%{fennecdir}/chrome/firstrun.jar
+#%{fennecdir}/chrome/firstrun.manifest
+#%{fennecdir}/chrome/classic.jar
+#%{fennecdir}/chrome/classic.manifest
+#%{fennecdir}/chrome/browser.jar
+#%{fennecdir}/chrome/browser.manifest
+%{fennecdir}/chrome/chrome.jar
+%{fennecdir}/chrome/chrome.manifest
 
 %dir %{fennecdir}/defaults
 %dir %{fennecdir}/defaults/preferences
