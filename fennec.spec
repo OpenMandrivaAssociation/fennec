@@ -1,7 +1,7 @@
 
 %define name	    fennec
 %define version     1.0
-%define release     %mkrel 0.rc3.2
+%define release     %mkrel 0.rc3.3
 %define fennecdir   %{_libdir}/%{name}-%{version}
 %define _provides_exceptions libfreebl3.so\\|libimgicon.so\\|libmozjs.so\\|libMyService.so\\|libnkgnomevfs.so\\|libnptest.so\\|libnptest.so\\|libnspr4.so\\|libnss3.so\\|libnssckbi.so\\|libnssdbm3.so\\|libnssutil3.so\\|libnullplugin.so\\|libplc4.so\\|libplds4.so\\|libsmime3.so\\|libsoftokn3.so\\|libsqlite3.so\\|libssl3.so\\|libtestdynamic.so\\|libunixprintplugin.so\\|libxpcomsample.so\\|libxpcom.so\\|libxul.so
 
