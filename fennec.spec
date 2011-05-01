@@ -71,6 +71,7 @@ or touch screen.
 
 %prep 
 %setup -qn mozilla-2.1
+sed -i -e "s#OS_LDFLAGS +=.*#OS_LDFLAGS += -Wl,-rpath=%{fennecdir}#" mobile/app/Makefile.in
 
 %build
 export CXXFLAGS="%optflags -fpermissive"
@@ -162,9 +163,6 @@ cp -R %{SOURCE3} %{buildroot}%{_datadir}/applications
 
 #icons
 tar xjf %{SOURCE4} -C %{buildroot}%{_datadir}/icons
-
-#add rpath
-chrpath -r %{fennecdir} %{buildroot}%{fennecdir}/fennec
 
 # executable script 
 mkdir -p %{buildroot}%{_bindir}
