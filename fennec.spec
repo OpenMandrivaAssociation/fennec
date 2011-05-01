@@ -1,7 +1,7 @@
 
 %define name	    fennec
 %define version     4.0.1
-%define release     %mkrel 1
+%define release     %mkrel 2
 %define fennecdir   %{_libdir}/%{name}-%{version}
 
 Name:		%{name}
@@ -162,6 +162,9 @@ cp -R %{SOURCE3} %{buildroot}%{_datadir}/applications
 
 #icons
 tar xjf %{SOURCE4} -C %{buildroot}%{_datadir}/icons
+
+#add rpath
+chrpath -r %{fennecdir} %{buildroot}%{fennecdir}/fennec
 
 # executable script 
 mkdir -p %{buildroot}%{_bindir}
