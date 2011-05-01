@@ -30,8 +30,7 @@ BuildRequires:	libcairo-devel
 BuildRequires:	glib2-devel
 BuildRequires:	libIDL2-devel
 BuildRequires:	makedepend
-#(tpg) don't use system nss and nspr as they are not updated to latest version which supports ff3
-BuildRequires:	nss-devel
+BuildRequires:	nss-static-devel
 BuildRequires:	nspr-devel
 BuildRequires:	startup-notification-devel
 BuildRequires:	dbus-glib-devel
