@@ -66,7 +66,7 @@ plataforms. Fennec is recommended for devices that have a small
 or touch screen.
 
 %prep 
-%setup -qDTn mozilla-2.1
+%setup -qn mozilla-2.1
 
 %build
 export CXXFLAGS="%optflags -fpermissive"
