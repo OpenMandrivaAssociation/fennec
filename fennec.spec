@@ -57,6 +57,8 @@ BuildRequires:  libiw-devel
 BuildRequires:	yasm
 BuildRequires:	libvpx-devel
 BuildRequires:	bzip2-devel
+BuildRequires:	mesagl-devel
+BuildRequires:	libproxy-devel
 Source0:	http://fr2.rpmfind.net/linux/mozilla/mobile/releases/%{version}/source/%{name}-%{version}.source.tar.bz2
 Source2:	.mozconfig
 Source3:	fennec.desktop
