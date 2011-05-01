@@ -1,14 +1,8 @@
 
 %define name	    fennec
-%define version     1.0
-%define release     %mkrel 0.rc3.3
+%define version     4.0.1
+%define release     %mkrel 1
 %define fennecdir   %{_libdir}/%{name}-%{version}
-%define _provides_exceptions libfreebl3.so\\|libimgicon.so\\|libmozjs.so\\|libMyService.so\\|libnkgnomevfs.so\\|libnptest.so\\|libnptest.so\\|libnspr4.so\\|libnss3.so\\|libnssckbi.so\\|libnssdbm3.so\\|libnssutil3.so\\|libnullplugin.so\\|libplc4.so\\|libplds4.so\\|libsmime3.so\\|libsoftokn3.so\\|libsqlite3.so\\|libssl3.so\\|libtestdynamic.so\\|libunixprintplugin.so\\|libxpcomsample.so\\|libxpcom.so\\|libxul.so
-
-%define _requires_exceptions libmozjs.so\\|libnspr4.so\\|libnspr4.so\\|libnss3.so\\|libnssutil3.so\\|libplc4.so\\|libplds4.so\\|libsmime3.so\\|libsoftokn3.so\\|libsqlite3.so\\|libssl3.so\\|libxpcom.so\\|libxul.so
-
-# update
-# %# define subrel 1
 
 Name:		%{name}
 Summary:	Fennec - the Moblin Web Browser for Mandriva-Mini
@@ -60,11 +54,7 @@ BuildRequires:	java-rpmbuild
 BuildRequires:  xulrunner-devel
 BuildRequires:  libnotify-devel
 BuildRequires:  libiw-devel
-
-# Requires: 	man > 1.0
-# Requires:	sed = %{sedversion}
-
-Source0:	http://ftp.mozilla.org/pub/mozilla.org/mobile/releases/1.0/source/fennec-1.0rc3.source.tar.bz2
+Source0:	http://fr2.rpmfind.net/linux/mozilla/mobile/releases/%{version}/source/%{name}-%{version}.source.tar.bz2
 Source2:	.mozconfig
 Source3:	fennec.desktop
 Source4:	icons_fennec.tar.bz2
@@ -76,29 +66,91 @@ plataforms. Fennec is recommended for devices that have a small
 or touch screen.
 
 %prep 
+%setup -qDTn mozilla-2.1
 
-%setup -n mozilla-1.9.2
-cp %{SOURCE2} .
-
-
-%build 
-
-# got from firefox
-# export PREFIX="%{_prefix}"
-# export LIBDIR="%{_libdir}"
-# export CFLAGS="%{optflags}"
-# export CXXFLAGS="$CFLAGS"
-
-make -f client.mk build
+%build
+export CXXFLAGS="%optflags -fpermissive"
+%configure2_5x \
+	--enable-application=xulrunner \
+	--enable-application=mobile \
+	--disable-elf-hack \
+	--with-pthreads \
+	--with-system-jpeg \
+	--with-system-zlib \
+	--with-system-bz2 \
+	--with-system-libevent \
+	--without-system-png \
+	--with-system-nspr \
+	--with-system-nss \
+	--disable-ldap \
+	--disable-calendar \
+	--disable-mailnews \
+	--disable-chatzilla \
+	--disable-composer \
+	--disable-profilesharing \
+	--disable-toolkit-qt \
+	--disable-installer \
+	--disable-updater \
+	--disable-debug \
+	--disable-pedantic \
+	--disable-native-uconv \
+	--disable-elf-dynstr-gc \
+	--disable-crashreporter \
+	--disable-strip \
+	--enable-crypto \
+	--disable-gnomevfs \
+	--enable-gnomeui \
+	--enable-places \
+	--enable-storage \
+	--enable-default-toolkit=cairo-gtk2 \
+	--enable-official-branding \
+	--enable-svg \
+	--enable-svg-renderer=cairo \
+	--enable-single-profile \
+	--enable-startup-notification \
+	--enable-system-cairo \
+	--disable-javaxpcom \
+	--enable-optimize \
+	--enable-safe-browsing \
+	--enable-xinerama \
+	--enable-canvas \
+	--enable-pango \
+	--enable-xtf \
+	--enable-wave \
+	--enable-webm \
+	--enable-ogg \
+	--enable-xpcom-fastload \
+	--enable-gio \
+	--enable-dbus \
+	--enable-image-encoder=all \
+	--enable-image-decoders=all \
+	--enable-extensions=default \
+	--enable-system-hunspell \
+	--enable-install-strip \
+	--enable-url-classifier \
+	--disable-faststart \
+	--enable-smil \
+	--disable-tree-freetype \
+	--enable-canvas3d \
+	--disable-coretext \
+	--enable-necko-protocols=all \
+	--disable-necko-wifi \
+	--disable-tests \
+	--disable-mochitest \
+	--with-distribution-id=com.mandriva \
+	--with-valgrind \
+	--enable-jemalloc \
+	--enable-system-sqlite \
+	--enable-chrome-format=jar \
+	--with-default-mozilla-five-home="%{fennecdir}"
+%make
 
 %install 
-
-cd %{_builddir}/mobilebase/mobile
+rm -fr %buildroot
 make package
 
-rm -rf %{buildroot}
 mkdir -p %{buildroot}%{fennecdir}
-cp -R %{_builddir}/mobilebase/mobile/dist/fennec/* %{buildroot}%{fennecdir}
+cp -R dist/fennec/* %{buildroot}%{fennecdir}
 
 # desktop file
 mkdir -p %{buildroot}%{_datadir}/{applications,icons}
@@ -123,132 +175,11 @@ sed -i 's/^pref("browser.ui.cursor", false);/pref("browser.ui.cursor", true);/g'
 #  --add-mime-type="application/vnd.ms-works;application/x-msworks-wp;zz-application/zz-winassoc-wps" \
 #  --dir %{buildroot}%{_datadir}/applications %{buildroot}%{_datadir}/applications/fenne.desktop
 
-%clean
-
-%pre
-
-%post
-
-%preun 
-
-%postun
-
 %files
 %defattr (-,root,root)
-
-# xulrunner files 
-%dir %{fennecdir}/xulrunner
-%dir %{fennecdir}/xulrunner/res
-%{fennecdir}/xulrunner/res/*.*
-# %dir %{fennecdir}/xulrunner/samples
-# %{fennecdir}/xulrunner/samples/*.*
-# %dir %{fennecdir}/xulrunner/dtd
-# %{fennecdir}/xulrunner/*.*
-%dir %{fennecdir}/xulrunner/res/entityTables
-%{fennecdir}/xulrunner/res/entityTables/*.*
-%dir %{fennecdir}/xulrunner/res/fonts
-%{fennecdir}/xulrunner/res/fonts/*.*
-%dir %{fennecdir}/xulrunner/res/html
-%{fennecdir}/xulrunner/res/html/*.*
-%dir %{fennecdir}/xulrunner/components
-%{fennecdir}/xulrunner/components/*.*
-%dir %{fennecdir}/xulrunner/dictionaries
-%{fennecdir}/xulrunner/dictionaries/*.*
-%dir %{fennecdir}/xulrunner/greprefs
-%{fennecdir}/xulrunner/greprefs/*.*
-%dir %{fennecdir}/xulrunner/modules
-%{fennecdir}/xulrunner/modules/*.*
-%dir %{fennecdir}/xulrunner/defaults
-%dir %{fennecdir}/xulrunner/defaults/autoconfig
-%{fennecdir}/xulrunner/defaults/autoconfig/*.*
-%dir %{fennecdir}/xulrunner/icons
-%{fennecdir}/xulrunner/icons/*.*
-%dir  %{fennecdir}/xulrunner/plugins
-%{fennecdir}/xulrunner/plugins/*.*
-%dir %{fennecdir}/xulrunner/chrome
-# %dir %{fennecdir}/chrome/icons
-# %{fennecdir}/xulrunner/chrome/icons/*.*
-%{fennecdir}/xulrunner/chrome/*.*
-%dir %{fennecdir}/xulrunner/defaults
-%dir %{fennecdir}/xulrunner/defaults/autoconfig
-%{fennecdir}/xulrunner/defaults/autoconfig/*.*
-%dir %{fennecdir}/xulrunner/defaults/pref
-%{fennecdir}/xulrunner/defaults/pref/*.*
-%dir %{fennecdir}/xulrunner/defaults/profile
-%dir %{fennecdir}/xulrunner/defaults/profile/US
-%{fennecdir}/xulrunner/defaults/profile/US/*.*
-%dir %{fennecdir}/xulrunner/defaults/profile/US/chrome
-%{fennecdir}/xulrunner/defaults/profile/US/chrome/*.*
-%dir %{fennecdir}/xulrunner/defaults/profile/chrome
-%{fennecdir}/xulrunner/defaults/profile/chrome/*.*
-%{fennecdir}/xulrunner/defaults/profile/*.*
-%{fennecdir}/xulrunner/*
-#%{fennecdir}/xulrunner/.autoreg
-
-# fennec files
-%{fennecdir}/application.ini
-%{fennecdir}/fennec
-
-%dir %{fennecdir}/components
-%{fennecdir}/components/components.list
-%{fennecdir}/components/nsTelProtocolHandler.js
-#%{fennecdir}/components/aboutFirstrun.js
-%{fennecdir}/components/AboutRedirector.js
-%{fennecdir}/components/AlertsService.js
-%{fennecdir}/components/AutoCompleteCache.js
-%{fennecdir}/components/BrowserCLH.js
-%{fennecdir}/components/BrowserStartup.js
-%{fennecdir}/components/ContentDispatchChooser.js
-%{fennecdir}/components/DirectoryProvider.js
-%{fennecdir}/components/DownloadManagerUI.js
-%{fennecdir}/components/GeolocationPrompt.js
-%{fennecdir}/components/HelperAppDialog.js
-%{fennecdir}/components/PromptService.js
-%{fennecdir}/components/Sidebar.js
-%{fennecdir}/components/XPIDialogService.js
-%{fennecdir}/components/fennec.xpt
-%{fennecdir}/components/libmozphone.so
-%{fennecdir}/defaults/preferences/mobile-l10n.js
-%{fennecdir}/fix-linux-stack.pl
-%{fennecdir}/res/bloatcycle.html
-%{fennecdir}/updater.ini
-
-#%dir %{fennecdir}/searchplugins
-#%{fennecdir}/searchplugins/wikipedia.xml
-#%{fennecdir}/searchplugins/answers.xml
-#%{fennecdir}/searchplugins/yahoo.xml
-#%{fennecdir}/searchplugins/google.xml
-
-%dir %{fennecdir}/chrome
-%{fennecdir}/chrome/en-US.jar
-%{fennecdir}/chrome/en-US.manifest
-#%{fennecdir}/chrome/firstrun.jar
-#%{fennecdir}/chrome/firstrun.manifest
-#%{fennecdir}/chrome/classic.jar
-#%{fennecdir}/chrome/classic.manifest
-#%{fennecdir}/chrome/browser.jar
-#%{fennecdir}/chrome/browser.manifest
-%{fennecdir}/chrome/chrome.jar
-%{fennecdir}/chrome/chrome.manifest
-
-%dir %{fennecdir}/defaults
-%dir %{fennecdir}/defaults/preferences
-%{fennecdir}/defaults/preferences/mobile.js
-
-#desktop file
+%{fennecdir}
 %{_datadir}/applications/fennec.desktop
-
-#icons
 %{_datadir}/icons/hicolor/*/apps/*
-
-#executable script
 %{_bindir}/fennec
-
-%changelog 
-
-* Wed Oct 22 2008 Rafael da Veiga Cabral - <cabral@mandriva.com> 1.0-0.a1.1mdv2009.1
-- Revision 
-- Version release 1.0a1
-- Desktop icons worked fom first_run_splash.png (content.jar)
 
 
