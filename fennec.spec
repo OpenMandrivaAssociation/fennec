@@ -169,21 +169,9 @@ echo "#!/bin/sh" >> %{buildroot}%{_bindir}/fennec
 echo "%{fennecdir}/fennec" >> %{buildroot}%{_bindir}/fennec
 chmod +x %{buildroot}%{_bindir}/fennec
 
-# enable cursor
-sed -i 's/^pref("browser.ui.cursor", false);/pref("browser.ui.cursor", true);/g' %{buildroot}%{fennecdir}/defaults/preferences/mobile.js 
- 
-# desktop-file-install --vendor="" \
-#  --remove-category="Application" \
-#  --add-category="Networking" \
-#  --add-category="X-MandrivaLinux-CrossDesktop" \
-#  --add-mime-type="application/vnd.ms-works;application/x-msworks-wp;zz-application/zz-winassoc-wps" \
-#  --dir %{buildroot}%{_datadir}/applications %{buildroot}%{_datadir}/applications/fenne.desktop
-
 %files
 %defattr (-,root,root)
 %{fennecdir}
 %{_datadir}/applications/fennec.desktop
 %{_datadir}/icons/hicolor/*/apps/*
 %{_bindir}/fennec
-
-
