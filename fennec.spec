@@ -1,7 +1,7 @@
 
 %define name	    fennec
 %define version     4.0.1
-%define release     %mkrel 2
+%define release     %mkrel 3
 %define fennecdir   %{_libdir}/%{name}-%{version}
 
 Name:		%{name}
@@ -75,6 +75,7 @@ sed -i -e "s#OS_LDFLAGS +=.*#OS_LDFLAGS += -Wl,-rpath=%{fennecdir}#" mobile/app/
 
 %build
 export CXXFLAGS="%optflags -fpermissive"
+export LDFLAGS="%ldflags -Wl,-rpath,%{fennecdir}"
 %configure2_5x \
 	--enable-application=xulrunner \
 	--enable-application=mobile \
