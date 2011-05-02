@@ -9,8 +9,6 @@ Summary:	Fennec - the Moblin Web Browser for Mandriva-Mini
 Version:	%{version}
 Release:	%{release}
 License: 	MPL
-Vendor:		Mandriva
-Packager:	Rafael da Veiga Cabral <cabral@mandriva.com>
 Group:	        Networking/WWW
 Url: 		http://www.moblin.org/projects/moblin-browser
 # BuildRoot:      %{_tmppath}/%{name}-%{version}-buildroot
