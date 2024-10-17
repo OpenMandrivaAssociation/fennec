@@ -10,7 +10,7 @@ Version:	%{version}
 Release:	%{release}
 License: 	MPL
 Group:	        Networking/WWW
-Url: 		http://www.moblin.org/projects/moblin-browser
+Url: 		https://www.moblin.org/projects/moblin-browser
 # BuildRoot:      %{_tmppath}/%{name}-%{version}-buildroot
 
 BuildRequires: autoconf2.1
