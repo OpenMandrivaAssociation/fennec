@@ -13,6 +13,9 @@ Group:	        Networking/WWW
 Url: 		https://www.moblin.org/projects/moblin-browser
 # BuildRoot:      %{_tmppath}/%{name}-%{version}-buildroot
 
+BuildRequires:	automake
+BuildRequires:	libtool-base
+BuildRequires:	slibtool
 BuildRequires: autoconf2.1
 BuildRequires: alsa-lib-devel
 
