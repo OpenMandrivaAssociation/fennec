@@ -1,7 +1,7 @@
 
 %define name	    fennec
 %define version     4.0.1
-%define release     %mkrel 3
+%define release 4
 %define fennecdir   %{_libdir}/%{name}-%{version}
 
 Name:		%{name}
